@@ -4,14 +4,15 @@ import { books as seed, type Book } from '@/lib/books';
 import {LibraryContext as Context,demoUser,type Entry,type State} from './library-context';
 import {LiveLibraryProvider} from './live-library-provider';
 import {liveMode} from '@/lib/auth-client';
+import {mergeCatalogSeeds} from '@/lib/catalog-migration';
 export {useLibrary,demoUser} from './library-context';
 export type {Entry} from './library-context';
-const initial: State = { books: seed.map((b,i) => ({ ...b, owner: i < 2 ? 'reader@booknook.example' : 'community@booknook.example', totalCopies: b.copies })), borrows: [] };
+const initial: State = { catalogVersion:2, books: seed.map((b,i) => ({ ...b, owner: i < 2 ? 'reader@booknook.example' : 'community@booknook.example', totalCopies: b.copies })), borrows: [] };
 function DemoLibraryProvider({ children }: { children: React.ReactNode }) {
  const [state,setState] = useState<State>(initial); const [demo,setDemo] = useState(false); const [ready,setReady] = useState(false); const [message,setMessage] = useState('');
- useEffect(() => { try { const raw = localStorage.getItem('booknook-preview-v1'); if(raw) { const saved = JSON.parse(raw); if(Array.isArray(saved.books) && Array.isArray(saved.borrows)) setState({ ...saved, books: saved.books.map((book: Entry) => {
+ useEffect(() => { try { const raw = localStorage.getItem('booknook-preview-v1'); if(raw) { const saved = JSON.parse(raw); if(Array.isArray(saved.books) && Array.isArray(saved.borrows)) setState({ ...saved, catalogVersion:2, books: mergeCatalogSeeds(saved.books,initial.books,saved.catalogVersion===2).map((book: Entry) => {
  const original = seed.find(item => item.id === book.id && item.title === book.title && item.author === book.author);
- return original ? { ...book, coverUrl: original.coverUrl, coverSource: original.coverSource, createdAt: book.createdAt || original.createdAt } : book;
+ return original ? { ...book, coverUrl: original.coverUrl, coverSource: original.coverSource, createdAt: original.id.startsWith('ol-') ? original.createdAt : book.createdAt || original.createdAt } : book;
  }) }); } setDemo(sessionStorage.getItem('booknook-demo') === 'true'); } catch {} setReady(true); }, []);
  useEffect(() => { if(ready) { try { localStorage.setItem('booknook-preview-v1',JSON.stringify(state)); } catch { setMessage('Browser storage is full. Recent changes will last only until this page is reloaded.'); } } }, [state,ready]);
  useEffect(() => { if(!message) return; const timer=setTimeout(()=>setMessage(''),5000);return ()=>clearTimeout(timer); },[message]);

@@ -530,3 +530,14 @@ td .outline-button{min-height:38px;font-size:14px;padding:0 16px}
  .discovery-categories a{min-height:100px}
 }
 @media(prefers-reduced-motion:reduce){.discovery-photo>img{transition:none}}
+
+.catalog-loading{min-height:350px;display:flex;flex-direction:column;justify-content:center;align-items:center;color:var(--muted)}
+.catalog-pagination{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:40px}
+.catalog-pagination>div{display:flex;gap:6px}
+.catalog-pagination button{border:1px solid var(--line);background:var(--surface);border-radius:10px;min-width:42px;min-height:42px;padding:8px 14px;font-size:13px}
+.catalog-pagination button:hover:not(:disabled){border-color:var(--ink)}
+.catalog-pagination button[aria-current=page]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.catalog-pagination button:disabled{opacity:.4;cursor:default}
+.catalog-pagination>span{flex-basis:100%;text-align:center;color:var(--muted);font-size:12px}
+@media(max-width:640px){.catalog-pagination{gap:8px}.catalog-pagination button{min-width:34px;min-height:40px;padding:6px 9px}.catalog-pagination>div{gap:4px}}
+#catalog-results{scroll-margin-top:110px}
