@@ -39,3 +39,9 @@ The frontend is a working demo. Better Auth, JWT, Express, MongoDB and imgbb int
 Published edition cover URLs and source pages are recorded in `src/lib/books.ts`. Unavailable covers display an explicit fallback; uploaded images override the published cover. Lucide SVG assets include their license in `public/icons`.
 
 Swiper is installed from the repository-local `vendor/swiper-12.0.3.tgz` because the package registry was unavailable during setup. The tarball was packed from the official library already installed locally and includes its MIT license.
+
+## Live authentication and backend
+
+The project now includes Better Auth email/password and Google integration, a MongoDB auth adapter, JWT token issuance, an authenticated imgbb upload route, and a live Express API transport. The default remains the browser-local preview until credentials are configured. See [LIVE_SETUP.md](./LIVE_SETUP.md) for the environment values and start commands.
+
+Live MongoDB/OAuth/upload behavior has not yet been tested because credentials are not configured. Backend unit tests pass; they do not substitute for database integration tests.
