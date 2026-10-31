@@ -454,3 +454,53 @@ td .outline-button{min-height:38px;font-size:14px;padding:0 16px}
  html{scroll-behavior:auto}
  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
+
+/* A centered reading room, with the original covers given their own space. */
+.library-hero .library-hero-inner{display:flex;flex-direction:column;align-items:center;min-height:0;background:#fffaf0;position:relative;padding:54px 60px 22px}
+.library-hero-copy{padding:0;width:100%;max-width:820px;text-align:center;display:block}
+.library-hero-copy .swiper{margin-bottom:24px}
+.hero-story{min-height:238px}
+.hero-story h1{max-width:18ch;margin:0 auto 18px;font-size:clamp(40px,5vw,64px);line-height:1.02;letter-spacing:-.045em}
+.hero-story .eyebrow{font-size:13px;color:var(--muted);margin-bottom:18px}
+.hero-story .hero-lede{font-size:16px;max-width:57ch;margin:0 auto}
+.hero-search{margin-inline:auto;border:1px solid #ded9cd;background:#fff;max-width:550px;padding:5px;box-shadow:0 6px 20px #40341206}
+.hero-search:focus-within{box-shadow:0 6px 20px #4034120a;border-color:#9b9485}
+.hero-search input:focus-visible{outline:none}
+.hero-search .button{background:var(--sun);color:var(--ink);min-width:100px}
+.hero-search .button:hover{background:var(--sun-deep)}
+.hero-reading-note{justify-content:center;margin-top:16px;font-size:13px;gap:16px}
+.hero-browse{text-decoration-thickness:2px;text-underline-offset:4px}
+.hero-shelf{width:100%;margin-top:38px;max-width:920px}
+.hero-shelf-label{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #e2dccf;padding-bottom:13px;font-size:12px;color:var(--muted)}
+.hero-shelf-label span:first-child{font-weight:650;color:var(--ink)}
+.hero-cover-row{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:38px;padding:26px 18px 0;align-items:end}
+.hero-shelf-book{min-width:0;display:flex;flex-direction:column;align-items:center;gap:15px;transition:transform .25s}
+.hero-shelf-book:hover{transform:translateY(-7px)}
+.hero-shelf-book .cover{width:100%;max-width:140px;box-shadow:0 14px 20px -12px #34271988}
+.hero-shelf-book>span{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;color:var(--muted)}
+.hero-pagination{display:flex;gap:8px;margin-top:24px}
+.hero-pagination button{border:0;border-bottom:2px solid #d9d3c7;border-radius:0;background:transparent;padding:7px 16px;font-size:11px;color:var(--muted)}
+.hero-pagination button[aria-pressed=true]{border-color:var(--ink);color:var(--ink);font-weight:700}
+@media(max-width:860px){
+ .library-hero .library-hero-inner{padding:40px 28px 20px}
+ .hero-story{min-height:230px}
+ .hero-cover-row{gap:20px;padding-inline:0}
+}
+@media(max-width:640px){
+ .library-hero .library-hero-inner{padding:32px 18px 20px;border-radius:22px}
+ .hero-story{min-height:260px}
+ .hero-story h1{font-size:40px;max-width:15ch}
+ .hero-story .hero-lede{font-size:14px}
+ .hero-story .eyebrow{font-size:11px;margin-bottom:16px}
+ .hero-search label{padding-left:8px;gap:6px;min-width:0}
+ .hero-search input{font-size:13px;width:100%}
+ .hero-search .button{min-width:76px;padding-inline:14px}
+ .hero-reading-note{font-size:12px;gap:10px}
+ .hero-shelf{margin-top:28px}
+ .hero-shelf-label{font-size:11px}
+ .hero-shelf-label span:last-child{display:none}
+ .hero-cover-row{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;padding-top:22px}
+ .hero-shelf-book:nth-child(n+4){display:none}
+ .hero-shelf-book>span{font-size:10px}
+}
+@media(prefers-reduced-motion:reduce){.hero-shelf-book{transition:none}}
