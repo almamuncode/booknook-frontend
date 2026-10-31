@@ -30,7 +30,7 @@ npm run build
 npm run start
 ```
 
-Production output uses `.next-build`; development uses `.next` so building does not overwrite a running dev server's route manifests.
+Vercel builds use its expected `.next` output directory. Local production builds use `.next-build` while development uses `.next`, so local build checks do not overwrite the running dev server's route manifests.
 
 ## Status
 
