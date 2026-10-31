@@ -5,15 +5,18 @@ import { jwt } from 'better-auth/plugins';
 import { nextCookies } from 'better-auth/next-js';
 import { MongoClient } from 'mongodb';
 let configuredAuth: ReturnType<typeof createConfiguredAuth> | undefined;
+class AuthConfigurationError extends Error {
+ readonly name='AuthConfigurationError';
+}
 function required(name: string) {
  const value=process.env[name];
- if(!value) throw new Error(`Authentication configuration is missing ${name}.`);
+ if(!value) throw new AuthConfigurationError(`Authentication configuration is missing ${name}.`);
  return value;
 }
 function createConfiguredAuth() {
  const baseURL=required('BETTER_AUTH_URL');
  const secret=required('BETTER_AUTH_SECRET');
- if(secret.length<32) throw new Error('BETTER_AUTH_SECRET must contain at least 32 characters.');
+ if(secret.length<32) throw new AuthConfigurationError('BETTER_AUTH_SECRET must contain at least 32 characters.');
  const client=new MongoClient(required('MONGODB_URI'),{serverSelectionTimeoutMS:10000});
  const google=process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET;
  return betterAuth({
