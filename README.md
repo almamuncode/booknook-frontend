@@ -45,3 +45,9 @@ Swiper is installed from the repository-local `vendor/swiper-12.0.3.tgz` because
 The project now includes Better Auth email/password and Google integration, a MongoDB auth adapter, JWT token issuance, an authenticated imgbb upload route, and a live Express API transport. The default remains the browser-local preview until credentials are configured. See [LIVE_SETUP.md](./LIVE_SETUP.md) for the environment values and start commands.
 
 Live MongoDB/OAuth/upload behavior has not yet been tested because credentials are not configured. Backend unit tests pass; they do not substitute for database integration tests.
+
+## Expanded catalog
+
+The preview contains 66 books, including 60 sourced Open Library records with published covers and source links. Imported descriptions are bibliographic notes; available-copy counts are demo inventory. See `src/data/CATALOG.md` for provenance. All Books displays 12 titles per page with search and category filters. Live mode requests filtered pages from the Express API; Home still requests six latest books.
+
+Run `node --test tests/catalog-migration.test.mjs` to check preservation of saved preview edits and deletions during the catalog upgrade. Populate MongoDB with `npm run seed` in the backend, then deploy the backend pagination change before deploying this frontend in live mode. The attempted database import from this environment was blocked by a MongoDB SRV DNS failure; live import remains unverified.

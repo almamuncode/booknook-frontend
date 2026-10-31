@@ -1,37 +1,37 @@
-> Archived visual review of the earlier violet design. This report predates the black-and-yellow redesign. See FRONTEND_STATUS.md for the current implementation and verification status.
+# Hero reference adaptation QA
 
-# BookNook redesign review
+Source visual truth: user-supplied bookstore screenshot in the current conversation (940 × 1600 pixels). Scope: hero composition and category strip only. Existing navigation and the rest of BookNook remain outside this change.
 
-## Sources and scope
+Implementation evidence: /tmp/booknook-discovery-desktop.png (940 × 1000 CSS viewport screenshot); /tmp/booknook-discovery-mobile.png (390 × 844 CSS viewport screenshot). Both browser-rendered; screenshots compared at their displayed CSS size. Source hero region and implementation hero were reviewed at 940px width. The source includes a taller commerce header; section boundaries were aligned conceptually rather than treating that header offset as a hero mismatch.
 
-Visual sources: the two Redex library landing-page images attached to the user's latest message. The first supplies the violet centered hero; the second supplies pastel sections and 3D educational imagery. This is a BookNook adaptation with its existing routes and library behavior retained, rather than a reproduction of Redex's marketing copy.
+State: homepage, signed out, demo catalog, first featured collection.
 
-Implementation evidence: `/tmp/booknook-qa/desktop-final.png`, `/tmp/booknook-qa/hero-final.png`, `/tmp/booknook-qa/mobile.png`.
+## Findings and comparison history
 
-State: home, signed out, first hero slide. Desktop browser viewport approximately 1265 × 712; mobile override 390 × 844, content width 375 after scrollbar. Browser captures use the browser's screenshot density. Source attachments have not been materialized or normalized into a combined comparison artifact.
-
-## Browser findings and corrections
-
-- P2, initial mobile hero: scaled illustration caused horizontal overflow. Fixed by clipping hero overflow and removing the mobile image scale. Post-fix DOM measurement: document width 375, scroll width 375. Evidence: mobile.png.
-- P2, mobile login heading: hidden line breaks joined words. Added whitespace around the breaks.
-- Card content uses flex layout so detail actions align with varied book titles.
+- Initial P1: the image grid's intrinsic image heights expanded the middle column and pushed the main feature far below the heading. Fixed grid rows using minmax(0, …), and removed intrinsic minimum heights on the photo cards. The subsequent desktop screenshot shows aligned card bottoms, a low left feature, stacked middle cards, and tall right photo.
+- Post-fix review: no actionable P0/P1/P2 issues within the requested adaptation. Main actions and photo captions are readable; mobile uses a full-width feature followed by two columns, then a three-column category strip. No horizontal viewport overflow at 390px.
 
 ## Required fidelity surfaces
 
-- Typography: replaced serif display type with Manrope and DM Sans, bold sans-serif hierarchy and responsive headings. External font service has system sans-serif fallbacks.
-- Layout: centered violet hero, peach About region with a pink inset card, light-gray arrivals grid, white information sections and a cream rounded CTA. Six books and borrowing instructions deliberately preserve assignment scope.
-- Colors: violet #6250ec, peach #fff0e2, pink #f7b6cc, lavender #ede8ff, cream #fff5df.
-- Images: three generated transparent 3D assets are integrated; icons are exported from Lucide with its license. Default catalog illustrations are not publisher covers. Uploaded book images remain supported.
-- Copy: original BookNook text, borrowing rather than purchasing, no lorem ipsum or fabricated reader reviews.
+- Typography: existing Bricolage Grotesque retained for BookNook; compact left-aligned two-line desktop heading, smaller supporting paragraph on the right. Mobile heading wraps naturally. Captions use white type over darkened photography.
+- Spacing/layout: reference's staggered three-column composition retained, with aligned photo-card bottoms and separate category tiles. Rounded corners and restrained borders follow existing tokens.
+- Colors/tokens: intentional use of BookNook yellow and charcoal for actions instead of reference orange. Pale neutral section background matches the reference direction.
+- Image quality: three generated editorial photographs optimized as WebP. Bookshelf, reader, and armchair subjects fit the slots; no generated artwork replaces original catalog covers. All hero image elements loaded in browser.
+- Copy/content: shopping, discounts and newsletter replaced with library discovery and a working title/author search. Counts derive from actual catalog records; existing categories retained rather than inventing unsupported categories.
 
-## Interaction checks
+Full-view evidence: desktop screenshot compared with supplied reference for split heading, staggered mosaic, aligned card bottoms and category rhythm. Focused review: photo captions, search controls and mobile grid inspected at readable size in browser screenshots.
 
-Browser-tested: next-slide control; collection CTA; Science category filter reducing six books to one; mobile menu open and navigation; demo entry; member shelf; book details; borrow-dialog open and cancel; demo exit. Browser console error log was empty during these checks. Responsive layout reviewed through full-page mobile capture and desktop screenshot.
+## Verification
 
-## Remaining verification
+- Production build and TypeScript passed.
+- Featured science button changes the active slide and pressed state; fiction button restores first slide.
+- Search for Little navigates to /books?q=Little.
+- Science category tile opens /books?category=Science; Science filter selected, one matching book rendered.
+- Mobile 390px: no horizontal overflow; caption and input layout inspected.
+- Browser error log checked after assets installed: no error entries.
 
-Exact source/implementation comparison is blocked: source images are available in the conversation, but a materialized source image and normalized combined comparison artifact were not captured. No pixel-fidelity claim is made. The implementation's browser and build checks do not substitute for that comparison.
+## Follow-up polish
 
-P3 follow-up: replace generic sample book illustrations with individual publisher covers when real catalog data is connected. Swiper and production authentication remain separate integration tasks.
+P3: category tiles currently share the existing book icon; distinct category icons could be added later.
 
-final result: blocked
+final result: passed

@@ -15,8 +15,8 @@ export async function apiRequest<T>(path:string,options:RequestInit={},protected
  if(!response.ok)throw new Error(payload.message || 'The library could not complete this request.');
  return payload as T;
 }
-type BookRecord={_id:string;title:string;author:string;category:string;description:string;image:string;ownerEmail?:string;ownerName:string;ownerId:string;availableCopies:number;totalCopies:number;createdAt:string};
-export function toEntry(book:BookRecord):Entry {return {id:book._id,title:book.title,author:book.author,category:book.category,description:book.description,image:book.image,owner:book.ownerEmail || '',ownerName:book.ownerName,ownerId:book.ownerId,copies:book.availableCopies,totalCopies:book.totalCopies,createdAt:book.createdAt,color:'#f6f5ef',ink:'#181a1b',subtitle:''};}
+type BookRecord={_id:string;title:string;author:string;category:string;description:string;image:string;ownerEmail?:string;ownerName:string;ownerId:string;availableCopies:number;totalCopies:number;createdAt:string;coverSource?:string;publishedYear?:number};
+export function toEntry(book:BookRecord):Entry {return {id:book._id,coverSource:book.coverSource,publishedYear:book.publishedYear,title:book.title,author:book.author,category:book.category,description:book.description,image:book.image,owner:book.ownerEmail || '',ownerName:book.ownerName,ownerId:book.ownerId,copies:book.availableCopies,totalCopies:book.totalCopies,createdAt:book.createdAt,color:'#f6f5ef',ink:'#181a1b',subtitle:''};}
 export async function fetchBooks(query='') {return (await apiRequest<BookRecord[]>(`/books${query}`)).map(toEntry);}
 export async function fetchBorrows():Promise<Borrow[]> {const records=await apiRequest<Array<{_id:string;bookId:string;title:string;image:string;borrowedAt:string;dueAt:string}>>('/borrows',{},true);return records.map(({_id,...record})=>({...record,id:_id}));}
 export async function saveBook(book:Entry,exists:boolean) {
@@ -25,3 +25,12 @@ export async function saveBook(book:Entry,exists:boolean) {
 }
 
 export async function fetchBook(id:string) {return toEntry(await apiRequest<BookRecord>(`/books/${id}`,{},true));}
+
+export type CatalogPage={books:Entry[];total:number;page:number;pageSize:number;totalPages:number};
+export async function fetchCatalogPage({page,query,category}:{page:number;query:string;category:string}):Promise<CatalogPage> {
+ const params=new URLSearchParams({page:String(page),limit:'12'});
+ if(query.trim())params.set('q',query.trim());
+ if(category!=='All books')params.set('category',category);
+ const result=await apiRequest<{books:BookRecord[];total:number;page:number;pageSize:number;totalPages:number}>(`/books?${params}`);
+ return {...result,books:result.books.map(toEntry)};
+}
