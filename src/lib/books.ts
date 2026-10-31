@@ -1,0 +1,11 @@
+export type Book = { id: string; title: string; author: string; category: string; color: string; ink: string; subtitle: string; description: string; copies: number };
+export const books: Book[] = [
+{ id: '1', title: 'The Secret Garden', author: 'Frances Hodgson Burnett', category: 'Fiction', color: '#dae3ce', ink: '#264e3c', subtitle: 'A little curiosity. A world of wonder.', description: 'Behind a locked door lies a forgotten garden. Follow Mary Lennox as friendship, patience, and the natural world bring a quiet corner of Yorkshire back to life.', copies: 4 },
+{ id: '2', title: 'A Brief History of Time', author: 'Stephen Hawking', category: 'Science', color: '#263c50', ink: '#f0dc9f', subtitle: 'From the big bang to black holes', description: 'An invitation to explore the biggest questions about our universe, from the nature of time to the mysteries of black holes.', copies: 2 },
+{ id: '3', title: 'Little Women', author: 'Louisa May Alcott', category: 'Fiction', color: '#e8b9a6', ink: '#6c302e', subtitle: 'Four sisters. A thousand possibilities.', description: 'Meet the March sisters as they navigate ambition, family, love, and the everyday adventures of growing up.', copies: 3 },
+{ id: '4', title: 'The Story of Art', author: 'E. H. Gombrich', category: 'History', color: '#e9d89f', ink: '#51482f', subtitle: 'A journey through human creativity', description: 'Discover how artists across centuries have seen the world and found new ways to share their visions.', copies: 1 },
+{ id: '5', title: 'The Little Prince', author: 'Antoine de Saint-Exupéry', category: 'Kids', color: '#b9ced9', ink: '#294356', subtitle: 'What matters is invisible to the eye', description: 'A small traveller from a distant planet shares an unforgettable story of friendship, imagination, and what makes life meaningful.', copies: 5 },
+{ id: '6', title: 'Walden', author: 'Henry David Thoreau', category: 'Others', color: '#72836b', ink: '#fbf0cc', subtitle: 'Life in the woods', description: 'A thoughtful exploration of simple living, independence, and our relationship with the natural world.', copies: 0 },
+];
+export async function getBooks() { return books; }
+export async function getBook(id: string) { return books.find(book => book.id === id); }
