@@ -1,26 +1,41 @@
-# BookNook frontend
+# BookNook
 
-An editorial-style community library frontend built with Next.js App Router and TypeScript.
+A small online library frontend built with Next.js App Router and TypeScript. Discover a book, borrow it for seven days, and return it for the next reader.
 
-## Start
+**Live site:** pending deployment.
+
+## Features
+
+- Classic black-and-yellow design with responsive desktop and mobile layouts.
+- Three-slide Swiper hero with text navigation and a searchable library.
+- Six newest arrivals, category shelves, and a searchable three-column catalog.
+- Original published book covers and local custom-cover previews.
+- Add, edit, and delete book interfaces with ownership and copy validation.
+- Borrow confirmations, duplicate prevention, copy tracking, and returns.
+- My Books, My Borrows with cover thumbnails, and My Profile.
+- Accessible dialogs, toast feedback, loading, error and empty states, and a custom 404.
+
+## Run locally
 
 ```sh
-npm install
+npm ci
 npm run dev
 ```
 
-## Current features
+Open http://localhost:3000. To review member pages, open Login and select **Open frontend demo**. No real account is created. Demo changes are stored only in this browser; Reset sample data restores the sample collection.
 
-- Responsive navigation, footer, and accessible skip link.
-- Three manually selectable home slides.
-- Six original typographic book-cover illustrations.
-- Searchable catalog with category filters and URL category links.
-- Login and registration interfaces with password validation.
-- Private book-detail redirect preserving the intended destination.
-- Custom loading, empty and not-found states.
+```sh
+npm run typecheck
+npm run build
+npm run start
+```
+
+Production output uses `.next-build`; development uses `.next` so building does not overwrite a running dev server's route manifests.
 
 ## Status
 
-Frontend preview with sample data. No accounts are created and no borrowing actions are persisted. Better Auth, Express, MongoDB, imgbb, Swiper and shared UI tooling remain integration work. Book covers are illustrative typography, not publisher cover artwork. Contact address is a reserved example address.
+The frontend is a working demo. Better Auth, JWT, Express, MongoDB and imgbb integration are still pending. Demo guards and ownership checks are frontend behavior, not server security. See [FRONTEND_STATUS.md](./FRONTEND_STATUS.md) for the requirement checklist and verification limits.
 
-Live URL: pending deployment.
+Published edition cover URLs and source pages are recorded in `src/lib/books.ts`. Unavailable covers display an explicit fallback; uploaded images override the published cover. Lucide SVG assets include their license in `public/icons`.
+
+Swiper is installed from the repository-local `vendor/swiper-12.0.3.tgz` because the package registry was unavailable during setup. The tarball was packed from the official library already installed locally and includes its MIT license.
