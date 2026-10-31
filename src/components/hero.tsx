@@ -20,26 +20,24 @@ export function Hero() {
  const [query, setQuery] = useState('');
  const carousel = useRef<SwiperInstance | null>(null);
  const router = useRouter();
+ const picks = books.length ? [books[(slide+1)%books.length],books[(slide+4)%books.length],books[slide%books.length]] : [];
+ const lead = picks[0];
+ // Only the story text slides; search, browse link and the cover stage stay in place.
  return <section className="library-hero" aria-label="Discover BookNook">
-  <div className="container">
-   <Swiper modules={[A11y, Keyboard]} slidesPerView={1} rewind keyboard={{enabled:true,onlyInViewport:true}} a11y={{enabled:true}} speed={450} onSwiper={instance=>{carousel.current=instance;}} onSlideChange={instance=>setSlide(instance.activeIndex)}>
-    {stories.map((story,index)=>{
-     const picks = books.length ? [books[(index+1)%books.length],books[(index+4)%books.length],books[index%books.length]] : [];
-     const lead = picks[0];
-     return <SwiperSlide key={story.label}><div className="library-hero-inner" inert={index!==slide}>
-      <div className="library-hero-copy"><p className="eyebrow">{story.label}</p><h1>{story.title}</h1><p className="hero-lede">{story.description}</p>
-       <form className="hero-search" onSubmit={event=>{event.preventDefault();router.push(`/books${query.trim()?`?q=${encodeURIComponent(query.trim())}`:''}`);}}><label><img src="/icons/search.svg" alt=""/><input aria-label="Search the library" value={query} onChange={event=>setQuery(event.target.value)} placeholder="Find your next great read…"/></label><button type="submit" className="button">Search</button></form>
-       <div className="hero-reading-note"><Link href="/books" className="hero-browse">Browse Books</Link><span>Borrow. Return. Repeat.</span></div>
-      </div>
-      <div className="spotlight" style={lead?cloth(lead):undefined}>
-       <div className="spotlight-heading"><span>On our bookshelf</span><span className="spotlight-count">{index+1} / 3</span></div>
-       {picks.length?<div className="spotlight-books">{picks.map((book,i)=><Link key={`${book.id}-${i}`} href={`/books/${book.id}`} className={`spotlight-book spotlight-book-${i}`} aria-label={`View ${book.title}`}><Cover book={book}/></Link>)}</div>:<p className="hero-empty">New stories are on their way. Browse the collection or share a book to get started.</p>}
-       {lead && <div className="spotlight-caption"><strong>{lead.title}</strong><span>by {lead.author}</span></div>}
-       <div className="spotlight-controls"><button aria-label="Previous featured slide" onClick={()=>carousel.current?.slidePrev()}>Previous</button><button aria-label="Next featured slide" onClick={()=>carousel.current?.slideNext()}>Next</button><span>{lead?`${lead.category} & beyond`:'Your next chapter awaits'}</span></div>
-      </div>
-     </div></SwiperSlide>;
-    })}
-   </Swiper>
+  <div className="container library-hero-inner">
+   <div className="library-hero-copy">
+    <Swiper modules={[A11y, Keyboard]} slidesPerView={1} spaceBetween={64} rewind keyboard={{enabled:true,onlyInViewport:true}} a11y={{enabled:true}} speed={450} onSwiper={instance=>{carousel.current=instance;}} onSlideChange={instance=>setSlide(instance.activeIndex)}>
+     {stories.map((story,index)=><SwiperSlide key={story.label}><div className="hero-story" inert={index!==slide}><p className="eyebrow">{story.label}</p><h1>{story.title}</h1><p className="hero-lede">{story.description}</p></div></SwiperSlide>)}
+    </Swiper>
+    <form className="hero-search" onSubmit={event=>{event.preventDefault();router.push(`/books${query.trim()?`?q=${encodeURIComponent(query.trim())}`:''}`);}}><label><img src="/icons/search.svg" alt=""/><input aria-label="Search the library" value={query} onChange={event=>setQuery(event.target.value)} placeholder="Find your next great read…"/></label><button type="submit" className="button">Search</button></form>
+    <div className="hero-reading-note"><Link href="/books" className="hero-browse">Browse Books</Link><span>Borrow. Return. Repeat.</span></div>
+   </div>
+   <div className="spotlight" style={lead?cloth(lead):undefined}>
+    <div className="spotlight-heading"><span>On our bookshelf</span><span className="spotlight-count" aria-live="polite">{slide+1} / 3</span></div>
+    {picks.length?<div className="spotlight-books" key={slide}>{picks.map((book,i)=><Link key={`${book.id}-${i}`} href={`/books/${book.id}`} className={`spotlight-book spotlight-book-${i}`} aria-label={`View ${book.title}`}><Cover book={book}/></Link>)}</div>:<p className="hero-empty">New stories are on their way. Browse the collection or share a book to get started.</p>}
+    {lead && <div className="spotlight-caption"><strong>{lead.title}</strong><span>by {lead.author}</span></div>}
+    <div className="spotlight-controls"><button aria-label="Previous featured slide" onClick={()=>carousel.current?.slidePrev()}>Previous</button><button aria-label="Next featured slide" onClick={()=>carousel.current?.slideNext()}>Next</button><span>{lead?`${lead.category} & beyond`:'Your next chapter awaits'}</span></div>
+   </div>
   </div>
  </section>;
 }
