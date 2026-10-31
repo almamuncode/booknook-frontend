@@ -287,8 +287,10 @@ input[type=file]::file-selector-button{border:0;background:var(--ink);color:#fff
 
 /* ---------- Auth ---------- */
 .auth-layout{display:grid;grid-template-columns:1fr 1fr;gap:24px;padding-block:28px 72px;align-items:stretch}
-.auth-story{background:var(--violet);color:#fff;border-radius:var(--radius-panel);padding:64px;display:flex;flex-direction:column;justify-content:flex-end;position:relative;overflow:hidden;min-height:620px}
-.auth-story::before{content:'';position:absolute;top:56px;right:56px;width:150px;height:210px;border-radius:6px 12px 12px 6px;background:var(--sun);transform:rotate(8deg);box-shadow:-70px 40px 0 -10px var(--coral),-120px -10px 0 -30px #fff}
+.auth-story{background:var(--violet);color:#fff;border-radius:var(--radius-panel);padding:56px 64px 64px;display:flex;flex-direction:column;justify-content:center;position:sticky;top:100px;align-self:start;overflow:hidden;min-height:620px}
+.auth-illustration{position:relative;align-self:center;width:min(380px,88%);margin:-16px 0 28px;isolation:isolate}
+.auth-illustration::before{content:'';position:absolute;z-index:-1;inset:10% 4% 0;border-radius:50%;background:radial-gradient(circle at 50% 45%,#f3efff 0 55%,rgba(243,239,255,0) 71%)}
+.auth-illustration img{display:block;width:100%;height:auto}
 .auth-story h1{color:#fff;font-size:clamp(38px,4.4vw,58px);margin-bottom:24px;position:relative}
 .auth-story .eyebrow{color:var(--sun)}
 .auth-story p{color:#d9d3ff}
@@ -375,8 +377,8 @@ td .outline-button{min-height:38px;font-size:14px;padding:0 16px}
  .detail-grid{grid-template-columns:1fr;padding:32px;gap:36px}
  .detail-cover{max-width:400px}
  .auth-layout{grid-template-columns:1fr}
- .auth-story{min-height:0;padding:48px 40px}
- .auth-story::before{display:none}
+ .auth-story{min-height:0;padding:48px 40px;position:relative;top:auto}
+ .auth-illustration{width:min(280px,70%);margin:0 0 24px}
  .catalog-page .page-heading::after{display:none}
 }
 @media(max-width:860px){
@@ -432,6 +434,7 @@ td .outline-button{min-height:38px;font-size:14px;padding:0 16px}
  .form-two{grid-template-columns:1fr}
  .editor-form{padding:24px 18px;border-radius:22px}
  .auth-story,.auth-panel{padding:36px 22px;border-radius:22px}
+ .auth-illustration{width:min(220px,72%)}
  .member-heading-row{flex-direction:column;align-items:flex-start}
  .member-book{grid-template-columns:96px 1fr;padding:0 16px 18px;gap:16px}
  .profile-card{flex-direction:column;align-items:flex-start;padding:28px 22px}
