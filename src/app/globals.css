@@ -541,3 +541,7 @@ td .outline-button{min-height:38px;font-size:14px;padding:0 16px}
 .catalog-pagination>span{flex-basis:100%;text-align:center;color:var(--muted);font-size:12px}
 @media(max-width:640px){.catalog-pagination{gap:8px}.catalog-pagination button{min-width:34px;min-height:40px;padding:6px 9px}.catalog-pagination>div{gap:4px}}
 #catalog-results{scroll-margin-top:110px}
+
+.detail-cover-column{min-width:0}
+.detail-source{display:block;width:fit-content;margin:12px auto 0;font-size:11px;line-height:1.5;color:var(--muted);text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:3px}
+.detail-source:hover{color:var(--ink);text-decoration-color:currentColor}
