@@ -8,35 +8,41 @@ import type { Swiper as SwiperInstance } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/a11y';
 import { useLibrary } from './library-provider';
-import { Cover } from './ui';
+
 const stories = [
- { label: 'A world of stories, one little library', title: <>A little library. A world of possibilities.</>, description: 'A quiet escape. A different perspective. A story you can’t put down. Discover a collection of books to borrow, share, and fall in love with.' },
- { label: 'Make time for something wonderful', title: <>Follow your curiosity. Find your next chapter.</>, description: 'From timeless fiction to the wonders of science, follow your curiosity into a new chapter. Your next favorite might be one shelf away.' },
- { label: 'Good stories deserve another reader', title: <>Good books bring people together.</>, description: 'Give a book you love a new home for a little while. Build your own shelf and be part of a community that keeps good stories moving.' },
+ { title: 'Find a little wonder between the pages.', category: 'Fiction', image: 'library' },
+ { title: 'Big questions. A whole new perspective.', category: 'Science', image: 'reading' },
+ { title: 'Every generation has a story to tell.', category: 'History', image: 'discovery' },
 ];
+const categories = ['All books','Fiction','Science','History','Kids','Others'];
 export function Hero() {
  const { books } = useLibrary();
  const [slide, setSlide] = useState(0);
  const [query, setQuery] = useState('');
  const carousel = useRef<SwiperInstance | null>(null);
  const router = useRouter();
- const picks = books.length ? Array.from({length:Math.min(5,books.length)},(_,index)=>books[(slide+index)%books.length]) : [];
-
- // Only the story text slides; search, browse link and the cover stage stay in place.
- return <section className="library-hero" aria-label="Discover BookNook">
-  <div className="container library-hero-inner">
-   <div className="library-hero-copy">
-    <Swiper modules={[A11y, Keyboard]} slidesPerView={1} spaceBetween={64} rewind keyboard={{enabled:true,onlyInViewport:true}} a11y={{enabled:true}} speed={450} onSwiper={instance=>{carousel.current=instance;}} onSlideChange={instance=>setSlide(instance.activeIndex)}>
-     {stories.map((story,index)=><SwiperSlide key={story.label}><div className="hero-story" inert={index!==slide}><p className="eyebrow">{story.label}</p><h1>{story.title}</h1><p className="hero-lede">{story.description}</p></div></SwiperSlide>)}
-    </Swiper>
-    <form className="hero-search" onSubmit={event=>{event.preventDefault();router.push(`/books${query.trim()?`?q=${encodeURIComponent(query.trim())}`:''}`);}}><label><img src="/icons/search.svg" alt=""/><input aria-label="Search the library" value={query} onChange={event=>setQuery(event.target.value)} placeholder="Find your next great read…"/></label><button type="submit" className="button">Search</button></form>
-    <div className="hero-reading-note"><Link href="/books" className="hero-browse">Browse Books</Link><span>Borrow. Return. Repeat.</span></div>
+ const count = (category:string) => category === 'All books' ? books.length : books.filter(book=>book.category===category).length;
+ const categoryUrl = (category:string) => category === 'All books' ? '/books' : `/books?category=${encodeURIComponent(category)}`;
+ return <section className="discovery-hero" aria-label="Discover BookNook">
+  <div className="container">
+   <div className="discovery-heading">
+    <div><p className="eyebrow">A little library. A world of possibilities.</p><h1>Where quiet moments<br/>meet great books.</h1><div className="discovery-actions"><Link className="button" href="/books">Explore books</Link><a className="discovery-secondary" href="#discover-categories">Browse categories</a></div></div>
+    <p className="discovery-intro">A familiar favorite. A new perspective. A story you can’t put down. Find your next read, borrow it, and make a little time for yourself.</p>
    </div>
-   <div className="hero-shelf" aria-label="Books to discover">
-    <div className="hero-shelf-label"><span>Discover something worth reading</span><span>Selected from our shelves</span></div>
-    {picks.length ? <div className="hero-cover-row">{picks.map((book,i)=><Link key={`${book.id}-${i}`} href={`/books/${book.id}`} className="hero-shelf-book" aria-label={`View ${book.title}`}><Cover book={book}/><span>{book.title}</span></Link>)}</div> : <p className="hero-empty">New stories are on their way. Browse the collection or share a book to get started.</p>}
+   <div className="discovery-mosaic">
+    <div className="discovery-feature">
+     <Swiper modules={[A11y,Keyboard]} rewind keyboard={{enabled:true,onlyInViewport:true}} a11y={{enabled:true}} speed={450} onSwiper={instance=>{carousel.current=instance;}} onSlideChange={instance=>setSlide(instance.activeIndex)}>
+      {stories.map((story,index)=><SwiperSlide key={story.category}><Link className="discovery-photo discovery-main-photo" href={categoryUrl(story.category)} inert={index!==slide} tabIndex={index===slide?0:-1}><img src={`/images/hero-${story.image}.webp`} alt="" fetchPriority={index===0?'high':'auto'}/><div className="discovery-photo-caption"><span className="discovery-photo-tag">The {story.category.toLowerCase()} collection</span><h2>{story.title}</h2><span>{count(story.category)} {count(story.category)===1?'book':'books'} to discover</span></div></Link></SwiperSlide>)}
+     </Swiper>
+     <div className="discovery-slide-controls" aria-label="Featured collections">{stories.map((story,index)=><button key={story.category} aria-label={`Show ${story.category.toLowerCase()} collection`} aria-pressed={slide===index} onClick={()=>carousel.current?.slideTo(index)}>0{index+1}</button>)}</div>
+    </div>
+    <div className="discovery-middle">
+     <Link className="discovery-photo discovery-reader" href="/books?category=Kids"><img src="/images/hero-discovery.webp" alt=""/><div className="discovery-photo-caption"><h2>Small pages.<br/>Big adventures.</h2><span>Discover books for young minds</span></div></Link>
+     <div className="discovery-search-card"><span className="eyebrow">Your next chapter</span><h2>Have a book in mind?</h2><form onSubmit={event=>{event.preventDefault();router.push(`/books${query.trim()?`?q=${encodeURIComponent(query.trim())}`:''}`);}}><label className="sr-only" htmlFor="hero-book-search">Search the library</label><input id="hero-book-search" value={query} onChange={event=>setQuery(event.target.value)} placeholder="Title or author…"/><button type="submit">Find books</button></form></div>
+    </div>
+    <Link className="discovery-photo discovery-nook" href="/books?category=Others"><img src="/images/hero-reading.webp" alt=""/><div className="discovery-photo-caption"><span className="discovery-photo-tag">Slow down. Settle in.</span><h2>Make room for<br/>a good book.</h2><span>A little escape from the everyday</span></div></Link>
    </div>
-   <div className="hero-pagination" aria-label="Featured stories">{stories.map((story,index)=><button key={story.label} aria-label={`Show featured story ${index+1}`} aria-pressed={slide===index} onClick={()=>carousel.current?.slideTo(index)}><span>0{index+1}</span></button>)}</div>
+   <nav className="discovery-categories" id="discover-categories" aria-label="Discover books by category">{categories.map(category=><Link href={categoryUrl(category)} key={category}><img src="/icons/book-open.svg" alt=""/><strong>{category==='Others'?'More to explore':category}</strong><span>{count(category)} {count(category)===1?'book':'books'}</span></Link>)}</nav>
   </div>
  </section>;
 }
