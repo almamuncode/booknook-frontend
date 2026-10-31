@@ -39,3 +39,7 @@
 ## Dependency note
 
 Swiper 12.0.3 is installed from `vendor/swiper-12.0.3.tgz`, packed from an existing official installed package because the npm registry was unavailable. The repository-relative tarball and lockfile keep fresh installations reproducible. Its MIT license is included in the package.
+
+## Authentication and API integration update
+
+Better Auth email/password and optional Google configuration, MongoDB adapter, JWT/JWKS, imgbb upload route, and live API transport are now implemented. `NEXT_PUBLIC_ENABLE_LIVE_API` selects live mode; it remains false until credentials are configured. Private member identity comes from the session, and live ownership uses the verified user ID. MongoDB connectivity, Google callbacks, uploads, and end-to-end live data flows remain unverified. See LIVE_SETUP.md.
