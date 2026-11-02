@@ -5,6 +5,12 @@ const nextConfig: NextConfig = {
   distDir: process.env.VERCEL === '1'
     ? '.next'
     : process.env.NODE_ENV === 'production' ? '.next-build' : '.next',
+  images: {
+    remotePatterns: [
+      { protocol: 'https', hostname: 'covers.openlibrary.org', pathname: '/b/**' },
+      { protocol: 'https', hostname: 'i.ibb.co', pathname: '/**' },
+    ],
+  },
   experimental: {
     agentUpgrade: 'security',
   },

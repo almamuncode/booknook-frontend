@@ -244,6 +244,12 @@ h3{font-size:19px;line-height:1.2;letter-spacing:-.01em;font-variation-settings:
 .footer-grid h3{color:#fff;font-size:16px;margin-bottom:6px}
 .footer-grid a:not(.brand):hover{color:var(--sun)}
 .footer-grid .brand+p{margin-top:12px}
+.footer-socials{display:flex;flex-wrap:wrap;gap:8px}
+.footer-socials a{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;transition:background .15s,color .15s}
+.footer-socials a:hover{background:#34323d}
+.footer-socials svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.footer-socials .social-icon-fill{fill:currentColor;stroke:none}
+.footer-socials .social-icon-dot{fill:currentColor;stroke:none}
 .footer-note{font-size:14px}
 .footer-bottom{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:48px;padding-top:24px;border-top:1px solid #34323d;font-size:14px;color:#8d8b97}
 

@@ -10,6 +10,7 @@ A small online library frontend built with Next.js App Router and TypeScript. Di
 - Three-slide Swiper hero with text navigation and a searchable library.
 - Six newest arrivals, category shelves, and a searchable three-column catalog.
 - Original published book covers and local custom-cover previews.
+- Responsive, lazy-loaded book covers served in optimized formats and sizes.
 - Add, edit, and delete book interfaces with ownership and copy validation.
 - Borrow confirmations, duplicate prevention, copy tracking, and returns.
 - My Books, My Borrows with cover thumbnails, and My Profile.
@@ -36,7 +37,7 @@ Vercel builds use its expected `.next` output directory. Local production builds
 
 The frontend is a working demo. Better Auth, JWT, Express, MongoDB and imgbb integration are still pending. Demo guards and ownership checks are frontend behavior, not server security. See [FRONTEND_STATUS.md](./FRONTEND_STATUS.md) for the requirement checklist and verification limits.
 
-Published edition cover URLs and source pages are recorded in `src/lib/books.ts`. Unavailable covers display an explicit fallback; uploaded images override the published cover. Lucide SVG assets include their license in `public/icons`.
+Published edition cover URLs and source pages are recorded in `src/lib/books.ts`. Unavailable covers display an explicit fallback; uploaded images override the published cover. Book covers use Next.js image optimization for Open Library and imgbb sources, with local preview images bypassing the optimizer. Lucide SVG assets include their license in `public/icons`.
 
 Swiper is installed from the repository-local `vendor/swiper-12.0.3.tgz` because the package registry was unavailable during setup. The tarball was packed from the official library already installed locally and includes its MIT license.
 
