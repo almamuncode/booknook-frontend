@@ -1,3 +1,3 @@
-import { MemberPage } from '@/components/member-pages';
+import { AddBookPage } from '@/components/add-book-page';
 export const metadata = { title: 'Add Book' };
-export default function Page() { return <MemberPage view="add"/>; }
+export default function Page() { return <AddBookPage/>; }
